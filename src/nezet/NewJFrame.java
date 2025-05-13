@@ -56,6 +56,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenu1.setText("Program");
 
         mnuPrgBetoltes.setText("Betöltés...");
+        mnuPrgBetoltes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPrgBetoltesActionPerformed(evt);
+            }
+        });
         jMenu1.add(mnuPrgBetoltes);
 
         mnuPrgMentes.setText("Mentés...");
@@ -163,6 +168,25 @@ public class NewJFrame extends javax.swing.JFrame {
 //            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
 //        }
     }//GEN-LAST:event_mnuPrgMentesActionPerformed
+
+    private void mnuPrgBetoltesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrgBetoltesActionPerformed
+        /* a beolvasás alapszerkezete: */
+        JFileChooser jfc = new JFileChooser(System.getProperty("user.dir"));//aktuális projekt könnyvtár
+        int gomb = jfc.showSaveDialog(rootPane);//null | this <-- ez ua, mint rootPane
+        if (gomb == JFileChooser.APPROVE_OPTION) {
+            File kivalasztottFajl = jfc.getSelectedFile();
+            try {
+                String sorok = Files.readString(kivalasztottFajl.toPath());
+                System.out.println("A beolvasott fájl tartalma: ");
+                System.out.println(sorok);
+                
+                /* sorok feldolgozása */
+                
+            } catch (IOException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mnuPrgBetoltesActionPerformed
 
     private String tartalom(){
         String nev = txtNev.getText();
