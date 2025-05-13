@@ -1,18 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package nezet;
 
-/**
- *
- * @author csolti
- */
+import java.awt.HeadlessException;
+import javax.swing.JOptionPane;
+
 public class NewJFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewJFrame
-     */
     public NewJFrame() {
         initComponents();
     }
@@ -30,9 +22,15 @@ public class NewJFrame extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        mnuPrgKilepes = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jMenu1.setText("Program");
 
@@ -41,9 +39,15 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jMenuItem2.setText("Mentés...");
         jMenu1.add(jMenuItem2);
+        jMenu1.add(jSeparator1);
 
-        jMenuItem3.setText("Kilépés...");
-        jMenu1.add(jMenuItem3);
+        mnuPrgKilepes.setText("Kilépés...");
+        mnuPrgKilepes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPrgKilepesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuPrgKilepes);
 
         jMenuBar1.add(jMenu1);
 
@@ -63,9 +67,29 @@ public class NewJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void mnuPrgKilepesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrgKilepesActionPerformed
+        kilepes();
+    }//GEN-LAST:event_mnuPrgKilepesActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        //System.out.println("kilépés folyamatban...");
+        kilepes();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void kilepes() throws HeadlessException {
+        String msg = "Biztos kilépsz?";
+        String cim = "KILÉPÉS";
+        int msgTip = JOptionPane.QUESTION_MESSAGE;
+        int optTip = JOptionPane.YES_NO_OPTION;
+        //JOptionPane.showMessageDialog(this, msg, cim, msgTip);
+        int gomb = JOptionPane.showConfirmDialog(rootPane, msg, cim, optTip);
+        if (gomb == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+        
+        //System.out.println("gomb = " + gomb);//YES: 0, NO: 1 , X: -1
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -103,6 +127,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenuItem mnuPrgKilepes;
     // End of variables declaration//GEN-END:variables
 }
