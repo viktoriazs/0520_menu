@@ -1,6 +1,13 @@
 package nezet;
 
 import java.awt.HeadlessException;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class NewJFrame extends javax.swing.JFrame {
@@ -18,10 +25,15 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtNev = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        chbHirlevel = new javax.swing.JCheckBox();
+        cmbSzak = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        mnuPrgBetoltes = new javax.swing.JMenuItem();
+        mnuPrgMentes = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mnuPrgKilepes = new javax.swing.JMenuItem();
 
@@ -32,13 +44,27 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Név");
+
+        chbHirlevel.setSelected(true);
+        chbHirlevel.setText("hírlevél");
+
+        cmbSzak.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--== Kiválasztott szak ==--", "Szoftverfejlesztő", "Rendszergazda", "Szoftverfejlesztő és tesztelő" }));
+
+        jLabel2.setText("Szak");
+
         jMenu1.setText("Program");
 
-        jMenuItem1.setText("Betöltés...");
-        jMenu1.add(jMenuItem1);
+        mnuPrgBetoltes.setText("Betöltés...");
+        jMenu1.add(mnuPrgBetoltes);
 
-        jMenuItem2.setText("Mentés...");
-        jMenu1.add(jMenuItem2);
+        mnuPrgMentes.setText("Mentés...");
+        mnuPrgMentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPrgMentesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnuPrgMentes);
         jMenu1.add(jSeparator1);
 
         mnuPrgKilepes.setText("Kilépés...");
@@ -57,11 +83,34 @@ public class NewJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNev, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cmbSzak, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(chbHirlevel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtNev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbSzak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chbHirlevel))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -76,6 +125,55 @@ public class NewJFrame extends javax.swing.JFrame {
         kilepes();
     }//GEN-LAST:event_formWindowClosing
 
+    private void mnuPrgMentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrgMentesActionPerformed
+        //JFileChooser jfc = new JFileChooser();//Documents könnyvtár
+        String hely = System.getProperty("user.dir");
+        JFileChooser jfc = new JFileChooser(hely);//aktuális projekt könnyvtár
+        
+        /* jfc paraméterezése: */
+        File kivalasztottFajl = new File(hely + "\\" + txtNev.getText() + ".txt");
+        System.out.println("fajl = " + kivalasztottFajl);
+        jfc.setSelectedFile(kivalasztottFajl);
+        
+        /* jfc megjelenítése, vizsgálata */
+        int gomb = jfc.showSaveDialog(rootPane);//null | this <-- ez ua, mint rootPane
+        
+        if (gomb == JFileChooser.APPROVE_OPTION) {
+            kivalasztottFajl = jfc.getSelectedFile();
+            String fajlElerese = kivalasztottFajl.getAbsolutePath();
+            Path path = Path.of(fajlElerese);//hova írjuk
+            try {
+                Files.writeString(path, tartalom());
+            } catch (IOException ex) {
+                /* felhasználónak: */
+                String msg = "IO hiba!\n" + ex.getMessage();
+                JOptionPane.showMessageDialog(rootPane, msg);
+                /* fejlesztőnek: */
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        /* a mentés alapszerkezete: */
+//        Path path = Path.of("kimenet.txt");//hova írjuk
+//        byte[] bytes = jTextField1.getText().getBytes();//mit írunk
+//        try {
+//            //Files.write(path, bytes);
+//            Files.writeString(path, jTextField1.getText());
+//        } catch (IOException ex) {// generált kód!!!
+//            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+    }//GEN-LAST:event_mnuPrgMentesActionPerformed
+
+    private String tartalom(){
+        String nev = txtNev.getText();
+        //String szak = cmbSzak.getSelectedItem().toString();
+        String szak = (String)cmbSzak.getSelectedItem();
+        boolean hirlevel = chbHirlevel.isSelected();
+        String msg = "név: " + nev
+                +"\nszak: %s(%d)".formatted(szak, cmbSzak.getSelectedIndex())
+                +"\nhírlevél: " + (hirlevel?"kér":"nem kér");
+        return msg;
+    }
     private void kilepes() throws HeadlessException {
         String msg = "Biztos kilépsz?";
         String cim = "KILÉPÉS";
@@ -123,11 +221,16 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox chbHirlevel;
+    private javax.swing.JComboBox<String> cmbSzak;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenuItem mnuPrgBetoltes;
     private javax.swing.JMenuItem mnuPrgKilepes;
+    private javax.swing.JMenuItem mnuPrgMentes;
+    private javax.swing.JTextField txtNev;
     // End of variables declaration//GEN-END:variables
 }
