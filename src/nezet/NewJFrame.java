@@ -176,11 +176,12 @@ public class NewJFrame extends javax.swing.JFrame {
         if (gomb == JFileChooser.APPROVE_OPTION) {
             File kivalasztottFajl = jfc.getSelectedFile();
             try {
-                String sorok = Files.readString(kivalasztottFajl.toPath());
+                String adatok = Files.readString(kivalasztottFajl.toPath());
                 System.out.println("A beolvasott fájl tartalma: ");
-                System.out.println(sorok);
+                System.out.println(adatok);
                 
                 /* sorok feldolgozása */
+                String[] sorok = adatok.split("\n");
                 
             } catch (IOException ex) {
                 Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
