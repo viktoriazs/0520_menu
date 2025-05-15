@@ -187,6 +187,10 @@ public class NewJFrame extends javax.swing.JFrame {
                 int index = Integer.parseInt(strSzam);
                 String strChb = sorok[2].split(" ")[1];
                 boolean chb = strChb.startsWith("nem")?false:true;
+                
+                txtNev.setText(nev);
+                cmbSzak.setSelectedIndex(index);
+                chbHirlevel.setSelected(chb);
             } catch (IOException ex) {
                 Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
