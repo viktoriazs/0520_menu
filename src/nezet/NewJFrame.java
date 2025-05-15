@@ -182,7 +182,11 @@ public class NewJFrame extends javax.swing.JFrame {
                 
                 /* sorok feldolgozása */
                 String[] sorok = adatok.split("\n");
-                
+                String nev = sorok[0].substring(sorok[0].indexOf(" ")+1);
+                String strSzam = sorok[1].substring(sorok[1].indexOf("(")+1, sorok[1].length()-1);
+                int index = Integer.parseInt(strSzam);
+                String strChb = sorok[2].split(" ")[1];
+                boolean chb = strChb.startsWith("nem")?false:true;
             } catch (IOException ex) {
                 Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
