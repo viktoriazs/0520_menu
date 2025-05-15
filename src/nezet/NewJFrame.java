@@ -202,11 +202,12 @@ public class NewJFrame extends javax.swing.JFrame {
         String msg = "Biztos kilépsz?";
         String cim = "KILÉPÉS";
         int msgTip = JOptionPane.QUESTION_MESSAGE;
-        int optTip = JOptionPane.YES_NO_OPTION;
+        int optTip = JOptionPane.YES_NO_OPTION;//.OK_CANCEL_OPTION;
         //JOptionPane.showMessageDialog(this, msg, cim, msgTip);
         int gomb = JOptionPane.showConfirmDialog(rootPane, msg, cim, optTip);
         if (gomb == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            int hibaKod = 0;
+            System.exit(hibaKod);
         }
         
         //System.out.println("gomb = " + gomb);//YES: 0, NO: 1 , X: -1
